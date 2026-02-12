@@ -1,0 +1,26 @@
+name: 自动巡检任务
+
+# 触发条件：当代码被 push（推送）到 main 分支时执行
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  inspection:
+    # 告诉 GitHub 给你准备一台 Ubuntu 虚拟机
+    runs-on: ubuntu-latest
+
+    steps:
+      # 第一步：把你的代码下载到这台虚拟机上
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      # 第二步：安装 Python 环境
+      - name: 安装 Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # 第三步：执行你的巡检脚本
+      - name: 执行巡检脚本
+        run: python check_server.py
