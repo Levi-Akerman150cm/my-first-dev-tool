@@ -1,7 +1,7 @@
 import os
 
 # 这里的 IP 你可以随意换成你公司的网关或者公网 DNS
-target_ip = "172.29.35.233"
+target_ip = "82.197.58.162"
 
 print(f"正在检查 {target_ip} 的连通性...")
 
