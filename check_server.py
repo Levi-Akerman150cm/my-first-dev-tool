@@ -1,15 +1,25 @@
-import os
+import socket
 
-# 这里的 IP 你可以随意换成你公司的网关或者公网 DNS
+def check_port(ip, port):
+    # 创建一个 TCP 套接字
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # 设置超时时间为 3 秒
+    s.settimeout(3)
+    try:
+        # 尝试连接
+        s.connect((ip, port))
+        return True
+    except Exception:
+        return False
+    finally:
+        s.close()
+
 target_ip = "8.8.8.8"
+target_port = 53 # DNS 服务的标准端口
 
-print(f"正在检查 {target_ip} 的连通性...")
+print(f"🚀 正在检测 {target_ip}:{target_port} 的可达性...")
 
-# 执行 ping 命令
-# -c 1 表示只发一个包，适合快速检测
-exit_code = os.system(f"ping -c 1 {target_ip}")
-
-if exit_code == 0:
-    print("✅ 服务器在线！运维同学可以喝杯咖啡。")
+if check_port(target_ip, target_port):
+    print(f"✅ 成功！{target_ip} 响应了我们的连接请求。")
 else:
-    print("❌ 警报：服务器掉线了！")  
+    print(f"❌ 失败！{target_ip} 拒绝连接或超时。")
