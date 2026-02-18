@@ -4,7 +4,7 @@ import json
 
 def send_alert(msg):
     # 填入你刚才复制的钉钉机器人 URL
-    webhook_url = "https://oapi.dingtalk.com/robot/send?access_token=ff047d50f4de249f1fca45fedd4a71997d6a41fb7942b790b25496dab0762970"
+    webhook_url = os.environ.get('DINGTALK_WEBHOOK')
     headers = {'Content-Type': 'application/json'}
     data = {
         "msgtype": "text",
