@@ -20,6 +20,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+      #安装依赖用于钉钉群转发
+      - name: 安装依赖
+        run: pip install requests
 
       # 第三步：执行你的巡检脚本
       - name: 执行巡检脚本
