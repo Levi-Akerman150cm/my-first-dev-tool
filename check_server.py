@@ -1,12 +1,24 @@
 import socket
+import requests # 引入发送 HTTP 请求的库
+import json
+
+def send_alert(msg):
+    # 填入你刚才复制的钉钉机器人 URL
+    webhook_url = "https://oapi.dingtalk.com/robot/send?access_token=ff047d50f4de249f1fca45fedd4a71997d6a41fb7942b790b25496dab0762970"
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        "msgtype": "text",
+        "text": {
+            "content": f"【监控告警】{msg}" # 必须包含你设置的关键词
+        }
+    }
+    # 发送 POST 请求
+    requests.post(webhook_url, data=json.dumps(data), headers=headers)
 
 def check_port(ip, port):
-    # 创建一个 TCP 套接字
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # 设置超时时间为 3 秒
     s.settimeout(3)
     try:
-        # 尝试连接
         s.connect((ip, port))
         return True
     except Exception:
@@ -17,9 +29,8 @@ def check_port(ip, port):
 target_ip = "212.62.96.223"
 target_port = 80 
 
-print(f"🚀 正在检测 {target_ip}:{target_port} 的可达性...")
-
 if check_port(target_ip, target_port):
-    print(f"✅ 成功！{target_ip} Nginx服务运行正常！")
+    print(f"✅ {target_ip} 正常")
 else:
-    print(f"❌ 失败！{target_ip} 网站无法访问了！")
+    print(f"❌ {target_ip} 异常，正在发送告警...")
+    send_alert(f"ECS 服务器 {target_ip} 的 Nginx 服务挂掉了，请火速排查！")
