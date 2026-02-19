@@ -6,6 +6,10 @@ import json
 def send_alert(msg):
     # 填入你刚才复制的钉钉机器人 URL
     webhook_url = os.environ.get('DINGTALK_WEBHOOK')
+    # 增加这个判断：如果没拿到 URL，打印提示并退出函数
+    if not webhook_url:
+        print("🚨 错误：环境变量 DINGTALK_WEBHOOK 为空，请检查 Github Action 配置！")
+        return    
     headers = {'Content-Type': 'application/json'}
     data = {
         "msgtype": "text",
@@ -15,25 +19,7 @@ def send_alert(msg):
     }
     # 发送 POST 请求
     requests.post(webhook_url, data=json.dumps(data), headers=headers)
-
-def send_alert(msg):
-    webhook_url = os.environ.get('DINGTALK_WEBHOOK')
-    
-    # 增加这个判断：如果没拿到 URL，打印提示并退出函数
-    if not webhook_url:
-        print("🚨 错误：环境变量 DINGTALK_WEBHOOK 为空，请检查 Github Action 配置！")
-        return
-
-    headers = {'Content-Type': 'application/json'}
-    data = {
-        "msgtype": "text",
-        "text": {
-            "content": f"【监控告警】{msg}" 
-        }
-    }
-    # 这下 webhook_url 就不会是 None 了
-    requests.post(webhook_url, data=json.dumps(data), headers=headers)
-    
+   
 def check_port(ip, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(3)
