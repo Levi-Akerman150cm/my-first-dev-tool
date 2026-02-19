@@ -1,9 +1,17 @@
 name: 自动巡检任务
 
 # 触发条件：当代码被 push（推送）到 main 分支时执行
+#on:
+  #push:
+    #branches: [ "main" ]
 on:
   push:
     branches: [ "main" ]
+  schedule:
+    # 这里的 cron 表达式表示每 10 分钟运行一次
+    # 分 时 日 月 周 (UTC时间，比北京时间晚8小时)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # 加上这一行，你的 Actions 页面就会多出一个“手动执行”按钮
 
 jobs:
   inspection:
