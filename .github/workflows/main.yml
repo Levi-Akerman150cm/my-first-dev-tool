@@ -37,3 +37,7 @@ jobs:
         env:
           DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
         run: python check_server.py
+      # 扩展，加个df -h便于理解yml的指令结构
+      - name:  查看当前主机磁盘
+        run: df -Th
+
