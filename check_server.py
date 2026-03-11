@@ -31,8 +31,8 @@ def check_port(ip, port):
     finally:
         s.close()
 
-target_ip = "212.62.96.223"
-target_port = 80 
+target_ip = "212.62.96.14"
+target_port = 443 
 
 if check_port(target_ip, target_port):
     print(f"✅ {target_ip} 正常")
